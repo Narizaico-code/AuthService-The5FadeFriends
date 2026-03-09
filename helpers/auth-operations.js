@@ -180,7 +180,10 @@ export const loginUserHelper = async (email, password) => {
 
     // Generate JWT with role claim
     const role = user.UserRoles?.[0]?.Role?.Name || 'USER_ROLE';
-    const token = await generateJWT(user.Id.toString(), { role });
+    const token = await generateJWT(user.Id.toString(), {
+      role,
+      email: user.Email,
+    });
 
     // Calcular fecha de expiración basada en la configuración
     const expiresInMs = getExpirationTime(process.env.JWT_EXPIRES_IN || '30m');
