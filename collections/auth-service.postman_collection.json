@@ -28,6 +28,35 @@
       "name": "Auth",
       "item": [
         {
+          "name": "Signup request (public)",
+          "request": {
+            "method": "POST",
+            "header": [ { "key": "Content-Type", "value": "application/json" } ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"Juan Perez\",\n  \"email\": \"user@example.com\",\n  \"password\": \"Secret123!\",\n  \"phone\": \"12345678\",\n  \"profilePicture\": \"\"\n}",
+              "options": { "raw": { "language": "json" } }
+            },
+            "url": { "raw": "{{baseUrl}}/auth/signup-request", "host": ["{{baseUrl}}"], "path": ["auth", "signup-request"] }
+          }
+        },
+        {
+          "name": "List signup requests (admin)",
+          "request": {
+            "method": "GET",
+            "header": [ { "key": "Authorization", "value": "Bearer {{adminToken}}" } ],
+            "url": { "raw": "{{baseUrl}}/auth/signup-requests", "host": ["{{baseUrl}}"], "path": ["auth", "signup-requests"] }
+          }
+        },
+        {
+          "name": "Approve signup request (admin)",
+          "request": {
+            "method": "POST",
+            "header": [ { "key": "Authorization", "value": "Bearer {{adminToken}}" } ],
+            "url": { "raw": "{{baseUrl}}/auth/signup-requests/<requestId>/approve", "host": ["{{baseUrl}}"], "path": ["auth", "signup-requests", "<requestId>", "approve"] }
+          }
+        },
+        {
           "name": "Register (form-data)",
           "request": {
             "method": "POST",

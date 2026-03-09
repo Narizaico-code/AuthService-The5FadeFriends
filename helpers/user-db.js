@@ -80,16 +80,20 @@ export const createNewUser = async (userData) => {
   const transaction = await User.sequelize.transaction();
 
   try {
-    const { name, email, password, phone, profilePicture } = userData;
+    const { name, email, password, phone, profilePicture, hashedPassword } =
+      userData;
 
-    const hashedPassword = await hashPassword(password);
+    // Allow passing a pre-hashed password (e.g., from a pending signup request)
+    const passwordToStore = hashedPassword
+      ? hashedPassword
+      : await hashPassword(password);
 
     // Crear el usuario principal
     const user = await User.create(
       {
         Name: name,
         Email: email.toLowerCase(),
-        Password: hashedPassword,
+        Password: passwordToStore,
         IsActive: false, // Empieza inactivo hasta que verifique el email
       },
       { transaction }

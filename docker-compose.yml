@@ -3,10 +3,10 @@ version: "3.9"
 services:
   postgres:
     image: postgres:16
-    container_name: the5FadeFriends
+    container_name: HaircutFiveFriends
     restart: unless-stopped
     environment:
-      POSTGRES_DB: the5FadeFriends
+      POSTGRES_DB: HaircutFiveFriends
       POSTGRES_USER: postgres
       POSTGRES_PASSWORD: root
     ports:
