@@ -80,6 +80,35 @@ router.post(
 );
 
 // Flujo barbería: el cliente crea solicitud y un admin la aprueba y envía token
+/**
+ * @swagger
+ * /api/v1/auth/signup-request:
+ *   post:
+ *     tags: [Authentication]
+ *     summary: Submit signup request
+ *     description: Creates a signup request to be approved by admin
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             required: [name, email, password, phone]
+ *             properties:
+ *               name:
+ *                 type: string
+ *               email:
+ *                 type: string
+ *               password:
+ *                 type: string
+ *               phone:
+ *                 type: string
+ *     responses:
+ *       201:
+ *         description: Request created
+ *       400:
+ *         description: Validation error
+ */
 router.post(
   '/signup-request',
   authRateLimit,
@@ -87,6 +116,20 @@ router.post(
   submitSignupRequest
 );
 
+/**
+ * @swagger
+ * /api/v1/auth/signup-requests:
+ *   get:
+ *     tags: [Authentication]
+ *     summary: List pending signup requests
+ *     security:
+ *       - bearerAuth: []
+ *     responses:
+ *       200:
+ *         description: Pending requests
+ *       403:
+ *         description: Forbidden
+ */
 router.get(
   '/signup-requests',
   validateJWT,
@@ -94,6 +137,28 @@ router.get(
   listPendingRequests
 );
 
+/**
+ * @swagger
+ * /api/v1/auth/signup-requests/{id}/approve:
+ *   post:
+ *     tags: [Authentication]
+ *     summary: Approve signup request
+ *     security:
+ *       - bearerAuth: []
+ *     parameters:
+ *       - name: id
+ *         in: path
+ *         required: true
+ *         schema:
+ *           type: string
+ *     responses:
+ *       200:
+ *         description: Request approved
+ *       403:
+ *         description: Forbidden
+ *       404:
+ *         description: Request not found
+ */
 router.post(
   '/signup-requests/:id/approve',
   validateJWT,

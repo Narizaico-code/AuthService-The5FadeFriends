@@ -4,6 +4,7 @@ import express from 'express';
 import cors from 'cors';
 import helmet from 'helmet';
 import morgan from 'morgan';
+import swaggerUi from 'swagger-ui-express';
 import { dbConnection } from './db.js';
 // Ensure models are registered before DB sync
 import '../src/users/user.model.js';
@@ -18,6 +19,7 @@ import {
 } from '../middlewares/server-genericError-handler.js';
 import authRoutes from '../src/auth/auth.routes.js';
 import userRoutes from '../src/users/user.routes.js';
+import { swaggerSpec } from './swagger.js';
 
 const BASE_PATH = '/api/v1';
 
@@ -41,6 +43,8 @@ const routes = (app) => {
       service: 'Gestor Restaurantes Authentication Service',
     });
   });
+
+  app.use(`${BASE_PATH}/api-docs`, swaggerUi.serve, swaggerUi.setup(swaggerSpec));
   // 404 handler (standardized)
   app.use(notFound);
 };
