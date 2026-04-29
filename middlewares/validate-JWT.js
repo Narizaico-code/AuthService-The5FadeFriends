@@ -19,8 +19,12 @@ export const validateJWT = async (req, res, next) => {
       });
     }
 
-    // Limpiar el token si viene con Bearer
-    token = token.replace(/^Bearer\s+/, '');
+    // Limpiar el token si viene con Bearer (ignorando mayúsculas) y limpiar espacios
+    token = token.replace(/^Bearer\s+/i, '').trim();
+
+    console.log('--- DEBUG TOKEN RECEIVED ---');
+    console.log(`Raw token value: "${token}"`);
+    console.log('----------------------------');
 
     // Verificar el token
     const decoded = await verifyJWT(token);
